@@ -1,0 +1,29 @@
+// Last updated: 7/9/2026, 10:33:39 PM
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node)
+            return nullptr;
+
+        unordered_map<Node*, Node*> mp;
+        queue<Node*> q;
+
+        q.push(node);
+        mp[node] = new Node(node->val);
+
+        while (!q.empty()) {
+            Node* cur = q.front();
+            q.pop();
+
+            for (Node* nei : cur->neighbors) {
+                if (!mp.count(nei)) {
+                    mp[nei] = new Node(nei->val);
+                    q.push(nei);
+                }
+                mp[cur]->neighbors.push_back(mp[nei]);
+            }
+        }
+
+        return mp[node];
+    }
+};
